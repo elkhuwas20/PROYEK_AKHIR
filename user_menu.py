@@ -7,7 +7,7 @@ class UserManager:
         self.drama_manager = DramaManager()
         self.storage = Storage()
     
-    def menu(self, username):
+    def menu_user(self, username):
         while True:
             print("\n" + "="*60)
             print(f"SELAMAT DATANG, {username.upper()}!")
@@ -22,13 +22,13 @@ class UserManager:
             choice = input("\nPilih menu (1-6): ").strip()
             
             if choice == '1':
-                self.drama_manager.display_all_dramas()
+                self.drama_manager.read_dramas()
             elif choice == '2':
-                self.add_to_watchlist(username)
+                self.create_watchlist(username)
             elif choice == '3':
-                self.view_my_watchlist(username)
+                self.read_watchlist(username)
             elif choice == '4':
-                self.remove_from_watchlist(username)
+                self.remove_watchlist(username)
             elif choice == '5':
                 self.search_drama()
             elif choice == '6':
@@ -37,7 +37,7 @@ class UserManager:
             else:
                 print("334Pilihan tidak valid!")
     
-    def add_to_watchlist(self, username):
+    def create_watchlist(self, username):
         print("\n" + "="*50)
         print("TAMBAH KE WATCHLIST")
         print("="*50)
@@ -60,7 +60,7 @@ class UserManager:
         self.storage.save_users(users)
         print(f" '{judul}' berhasil ditambahkan ke watchlist!")
     
-    def view_my_watchlist(self, username):
+    def read_watchlist(self, username):
         print("\n" + "="*50)
         print("WATCHLIST SAYA")
         print("="*50)
@@ -90,7 +90,7 @@ class UserManager:
         
         print(table)
     
-    def remove_from_watchlist(self, username):
+    def remove_watchlist(self, username):
         print("\n" + "="*50)
         print("HAPUS DARI WATCHLIST")
         print("="*50)

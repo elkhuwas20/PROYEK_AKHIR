@@ -41,7 +41,7 @@ class Storage:
                 "Typhoon Family": {"genre": "Drama", "episode": "16", "rating": "8.1", "status": "Ongoing"},
                 "The Manipulated": {"genre": "Action", "episode": "12", "rating": "8.5", "status": "Ongoing"}
             })
-    
+
     def load_data(self, filename):
         filepath = os.path.join(self.data_dir, filename)
         try:

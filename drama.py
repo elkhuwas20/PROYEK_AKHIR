@@ -6,9 +6,9 @@ class DramaManager:
         self.storage = Storage()
         self.dramas = self.storage.load_dramas()
     
-    def display_all_dramas(self):
+    def read_drama(self):
         if not self.dramas:
-            print("❌ Tidak ada drama yang tersedia.")
+            print("Tidak ada drama yang tersedia.")
             return
         
         table = PrettyTable()
@@ -29,14 +29,14 @@ class DramaManager:
         print("="*80)
         print(table)
     
-    def add_drama(self):
+    def create_drama(self):
         print("\n" + "="*50)
         print("TAMBAH DRAMA BARU")
         print("="*50)
         
         judul = input("Judul: ").strip()
         if judul in self.dramas:
-            print("❌ Drama sudah ada dalam daftar!")
+            print("Drama sudah ada dalam daftar!")
             return
         
         genre = input("Genre: ").strip()
@@ -51,18 +51,18 @@ class DramaManager:
             "rating": rating
         }
         self.storage.save_dramas(self.dramas)
-        print("✅ Drama berhasil ditambahkan!")
+        print("Drama berhasil ditambahkan!")
     
     def update_drama(self):
         print("\n" + "="*50)
         print("UPDATE DATA DRAMA")
         print("="*50)
         
-        self.display_all_dramas()
+        self.read_drama()
         judul = input("\nMasukkan judul drama yang ingin diupdate: ").strip()
         
         if judul not in self.dramas:
-            print("❌ Drama tidak ditemukan!")
+            print("Drama tidak ditemukan!")
             return
         
         print(f"\nData saat ini untuk '{judul}':")
@@ -87,34 +87,27 @@ class DramaManager:
             self.dramas[judul]['rating'] = rating
         
         self.storage.save_dramas(self.dramas)
-        print("✅ Data drama berhasil diupdate!")
+        print("Data drama berhasil diupdate!")
     
     def delete_drama(self):
         print("\n" + "="*50)
         print("HAPUS DRAMA")
         print("="*50)
         
-        self.display_all_dramas()
+        self.read_drama()
         judul = input("\nMasukkan judul drama yang ingin dihapus: ").strip()
         
         if judul not in self.dramas:
-            print("❌ Drama tidak ditemukan!")
+            print("Drama tidak ditemukan!")
             return
+        del self.dramas[judul]
+        self.storage.save_dramas(self.dramas)
+        users = self.storage.load_users()
+        for username in users:
+            users[username]["watchlist"] = [d for d in users[username]["watchlist"] if d != judul]
+        self.storage.save_users(users)
         
-        confirm = input(f"Apakah Anda yakin ingin menghapus '{judul}'? (y/n): ").lower()
-        if confirm == 'y':
-            del self.dramas[judul]
-            self.storage.save_dramas(self.dramas)
-            
-            # Also remove from all users' watchlists
-            users = self.storage.load_users()
-            for username in users:
-                users[username]["watchlist"] = [d for d in users[username]["watchlist"] if d != judul]
-            self.storage.save_users(users)
-            
-            print("✅ Drama berhasil dihapus!")
-        else:
-            print("❌ Penghapusan dibatalkan.")
+        print("Drama berhasil dihapus!")
     
     def search_drama(self, keyword):
         results = {}
