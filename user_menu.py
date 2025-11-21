@@ -14,6 +14,10 @@ class UserManager:
         
         self.drama_manager.read_drama()
         judul = input("\nMasukkan judul drama yang ingin ditambahkan: ").strip()
+
+        if not judul:
+            print("Judul tidak boleh kosong!")
+            return
         
         dramas = self.storage.load_dramas()
         users = self.storage.load_users()
@@ -74,11 +78,18 @@ class UserManager:
             return
         
         judul = input("\nMasukkan judul drama yang ingin dihapus: ").strip()
+
+        if not judul:
+            print("Judul tidak boleh kosong!")
+            return
         
         if judul not in watchlist:
             print("Drama tidak ditemukan di watchlist Anda!")
             return
 
+        watchlist.remove(judul)
+        self.storage.save_users(users)
+        print(f" '{judul}' berhasil dihapus dari watchlist!")
     
     def search_drama(self):
         print("\n" + "="*50)
@@ -86,6 +97,11 @@ class UserManager:
         print("="*50)
         
         keyword = input("Masukkan judul atau genre drama: ").strip()
+
+        if not keyword:
+            print("Kata kunci tidak boleh kosong!")
+            return
+
         results = self.drama_manager.search_drama(keyword)
         
         if not results:

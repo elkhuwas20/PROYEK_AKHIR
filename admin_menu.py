@@ -28,14 +28,14 @@ class AdminManager:
         print("DAFTAR DRAMA KOREA")
         print("="*80)
         print(table)
-        
+
     def search_drama(self, keyword):
         hasil = {}
         for judul, data in self.dramas.items():
             if keyword.lower() in judul.lower() or keyword.lower() in data['genre'].lower():
                 hasil[judul] = data
         return hasil
-    
+
     def create_drama(self):
         print("\n" + "="*50)
         print("TAMBAH DRAMA BARU")
@@ -46,11 +46,33 @@ class AdminManager:
             print("Drama sudah ada dalam daftar!")
             return
         
-        genre = input("Genre: ").strip()
-        episode = input("Jumlah Episode: ").strip()
-        status = input("Status (Finish/Ongoing): ").strip().capitalize()
-        rating = input("Rating: ").strip()
-        
+        while True:
+            genre = input("Genre: ").strip()
+            if genre.replace(" ", "").isalpha():
+                break
+            print("Genre tidak boleh angka!")
+
+        while True:
+            episode = input("Jumlah Episode: ").strip()
+            if episode.isdigit():
+                episode = int(episode)
+                break
+            print("Episode harus berupa angka!")
+
+        while True:
+            status = input("Status (Finish/Ongoing): ").strip().capitalize()
+            if status in ["Finish", "Ongoing"]:
+                break
+            print("Status hanya bisa 'Finish' atau 'Ongoing'!")
+
+        while True:
+            rating = input("Rating: ").strip()
+            try:
+                rating = float(rating)
+                break
+            except ValueError:
+                print("Rating harus berupa angka!")
+
         self.dramas[judul] = {
             "genre": genre,
             "episode": episode,
@@ -79,17 +101,49 @@ class AdminManager:
         print(f"Rating: {self.dramas[judul]['rating']}")
         
         print("\nMasukkan data baru (kosongkan jika tidak ingin mengubah):")
-        genre = input(f"Genre [{self.dramas[judul]['genre']}]: ").strip()
-        episode = input(f"Episode [{self.dramas[judul]['episode']}]: ").strip()
-        status = input(f"Status [{self.dramas[judul]['status']}]: ").strip()
-        rating = input(f"Rating [{self.dramas[judul]['rating']}]: ").strip()
+
+        while True:
+            genre = input(f"Genre [{self.dramas[judul]['genre']}]: ").strip()
+            if not genre:
+                break
+            if genre.replace(" ", "").isalpha():
+                break
+            print("Genre tidak boleh angka!")
+
+        while True:
+            episode = input(f"Episode [{self.dramas[judul]['episode']}]: ").strip()
+            if not episode:
+                break
+            if episode.isdigit():
+                episode = int(episode)
+                break
+            print("Episode harus berupa angka!")
+
+        while True:
+            status = input(f"Status [{self.dramas[judul]['status']}]: ").strip()
+            if not status:
+                break
+            status = status.capitalize()
+            if status in ["Finish", "Ongoing"]:
+                break
+            print("Status hanya bisa 'Finish' atau 'Ongoing'!")
+
+        while True:
+            rating = input(f"Rating [{self.dramas[judul]['rating']}]: ").strip()
+            if not rating:
+                break
+            try:
+                rating = float(rating)
+                break
+            except ValueError:
+                print("Rating harus berupa angka!")
         
         if genre:
             self.dramas[judul]['genre'] = genre
         if episode:
             self.dramas[judul]['episode'] = episode
         if status:
-            self.dramas[judul]['status'] = status.capitalize()
+            self.dramas[judul]['status'] = status
         if rating:
             self.dramas[judul]['rating'] = rating
         

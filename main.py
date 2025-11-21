@@ -1,5 +1,5 @@
 from colorama import Fore, Style
-from autentikasi import registrasi, login, login_tamu
+from autentikasi import registrasi, login
 from admin_menu import AdminManager
 from user_menu import UserManager
 
@@ -21,20 +21,20 @@ def menu_admin(username):
         print("6. Cari Drama")
         print("7. Logout")
 
-        choice = input("\nPilih menu (1-7): ").strip()
-        if choice == '1':
+        opsi = input("\nPilih menu (1-7): ").strip()
+        if opsi == '1':
             admin.create_drama()
-        elif choice == '2':
+        elif opsi == '2':
             admin.read_drama()
-        elif choice == '3':
+        elif opsi == '3':
             admin.update_drama()
-        elif choice == '4':
+        elif opsi == '4':
             admin.delete_drama()
-        elif choice == '5':
+        elif opsi == '5':
             admin.read_user_watchlists()
-        elif choice == '6':
+        elif opsi == '6':
             admin.search_drama()
-        elif choice == '7':
+        elif opsi == '7':
             print("Terima kasih, Admin!")
             menu_awal()
         else:
@@ -53,19 +53,19 @@ def menu_user(username):
             print("5. Cari Drama")
             print("6. Logout")
             
-            choice = input("\nPilih menu (1-6): ").strip()
+            opsi = input("\nPilih menu (1-6): ").strip()
             
-            if choice == '1':
+            if opsi == '1':
                 user.read_drama()
-            elif choice == '2':
+            elif opsi == '2':
                 user.create_watchlist(username)
-            elif choice == '3':
+            elif opsi == '3':
                 user.read_watchlist(username)
-            elif choice == '4':
+            elif opsi == '4':
                 user.remove_watchlist(username)
-            elif choice == '5':
+            elif opsi == '5':
                 user.search_drama()
-            elif choice == '6':
+            elif opsi == '6':
                 print("Sampai jumpa!")
                 menu_awal()
             else:
@@ -86,32 +86,33 @@ def menu_awal():
     print("2. Login")
     print("3. Lihat sebagai tamu")
     print("4. Keluar")
+    opsi = input("Silahkan pilih opsi: ").strip()
+    return opsi
 
-menu_awal()
-opsi = input("Silahkan pilih opsi: ").strip()
+while True:
+    opsi=menu_awal()
+    if opsi == "1":
+        registrasi()
+        username, is_admin = login()
+        if is_admin:
+            menu_admin(username)
+        else:
+            menu_user(username)
 
-if opsi == "1":
-    registrasi()
-    username, is_admin = login()
-    if is_admin:
-        menu_admin(username)
+    elif opsi == "2":
+        username, is_admin = login()
+        if is_admin:
+            menu_admin(username)
+        else:
+            menu_user(username)
+
+    elif opsi == "3":
+        print("Anda login sebagai tamu!")
+        user.read_drama()
+        menu_awal()
+
+    elif opsi == "4":
+        exit()
+
     else:
-        menu_user(username)
-
-elif opsi == "2":
-    username, is_admin = login()
-    if is_admin:
-        menu_admin(username)
-    else:
-        menu_user(username)
-
-elif opsi == "3":
-    print("Anda login sebagai tamu!")
-    user.read_drama()
-    menu_awal()
-
-elif opsi == "4":
-    exit()
-
-else:
-    print("Pilihan tidak valid.")
+        print("Pilihan tidak valid.")
