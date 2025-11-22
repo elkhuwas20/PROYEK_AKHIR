@@ -91,7 +91,7 @@ class UserManager:
         self.storage.save_users(users)
         print(f" '{judul}' berhasil dihapus dari watchlist!")
     
-    def search_drama(self):
+    def search_drama_user(self):
         print("\n" + "="*50)
         print("CARI DRAMA")
         print("="*50)

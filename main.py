@@ -1,20 +1,23 @@
 from colorama import Fore, Style
 from autentikasi import registrasi, login
-from admin_menu import AdminManager
-from user_menu import UserManager
+from admin_menu import (
+    read_drama, create_drama, update_drama, delete_drama,
+    read_user_watchlists, search_drama_menu
+)
+from user_menu import (
+    create_watchlist, read_watchlist, remove_watchlist, search_drama_user
+)
+from storage import load_users
 
 ungu = Fore.MAGENTA
-admin = AdminManager()
-user = UserManager()
-user = AdminManager()
 
 def menu_admin(username):
     while True:
         print("\n" + "="*60)
         print(f"SELAMAT DATANG, ADMIN {username.upper()}!")
         print("="*60)
-        print("1. Tambah Drama Baru")
-        print("2. Lihat Semua Drama")
+        print("1. Lihat Semua Drama")
+        print("2. Tambah Drama Baru")
         print("3. Update Data Drama")
         print("4. Hapus Drama")
         print("5. Lihat Watchlist Pengguna")
@@ -23,57 +26,52 @@ def menu_admin(username):
 
         opsi = input("\nPilih menu (1-7): ").strip()
         if opsi == '1':
-            admin.create_drama()
+            read_drama()
         elif opsi == '2':
-            admin.read_drama()
+            create_drama()
         elif opsi == '3':
-            admin.update_drama()
+            update_drama()
         elif opsi == '4':
-            admin.delete_drama()
+            delete_drama()
         elif opsi == '5':
-            admin.read_user_watchlists()
+            read_user_watchlists()
         elif opsi == '6':
-            admin.search_drama()
+            search_drama_menu()
         elif opsi == '7':
             print("Terima kasih, Admin!")
-            menu_awal()
+            return
         else:
             print("Pilihan tidak valid!")
-            return
 
 def menu_user(username):
-        while True:
-            print("\n" + "="*60)
-            print(f"SELAMAT DATANG, {username.upper()}!")
-            print("="*60)
-            print("1. Lihat Semua Drama Korea")
-            print("2. Tambah ke Watchlist")
-            print("3. Lihat Watchlist Saya")
-            print("4. Hapus dari Watchlist")
-            print("5. Cari Drama")
-            print("6. Logout")
-            
-            opsi = input("\nPilih menu (1-6): ").strip()
-            
-            if opsi == '1':
-                user.read_drama()
-            elif opsi == '2':
-                user.create_watchlist(username)
-            elif opsi == '3':
-                user.read_watchlist(username)
-            elif opsi == '4':
-                user.remove_watchlist(username)
-            elif opsi == '5':
-                user.search_drama()
-            elif opsi == '6':
-                print("Sampai jumpa!")
-                menu_awal()
-            else:
-                print("Pilihan tidak valid!")
-                return
+    while True:
+        print("\n" + "="*60)
+        print(f"SELAMAT DATANG, {username.upper()}!")
+        print("="*60)
+        print("1. Lihat Semua Drama Korea")
+        print("2. Tambah ke Watchlist")
+        print("3. Lihat Watchlist Saya")
+        print("4. Hapus dari Watchlist")
+        print("5. Cari Drama")
+        print("6. Logout")
 
+        opsi = input("\nPilih menu (1-6): ").strip()
 
-## MENU UTAMA ##
+        if opsi == '1':
+            read_drama()
+        elif opsi == '2':
+            create_watchlist(username)
+        elif opsi == '3':
+            read_watchlist(username)
+        elif opsi == '4':
+            remove_watchlist(username)
+        elif opsi == '5':
+            search_drama_user()
+        elif opsi == '6':
+            print("Sampai jumpa!")
+            return
+        else:
+            print("Pilihan tidak valid!")
 
 def menu_awal():
     print(f"{ungu}"
@@ -89,30 +87,29 @@ def menu_awal():
     opsi = input("Silahkan pilih opsi: ").strip()
     return opsi
 
-while True:
-    opsi=menu_awal()
-    if opsi == "1":
-        registrasi()
-        username, is_admin = login()
-        if is_admin:
-            menu_admin(username)
+def main():
+    while True:
+        opsi = menu_awal()
+        if opsi == "1":
+            registrasi()
+            continue
+        elif opsi == "2":
+            username_isadmin = login()
+            if username_isadmin is None:
+                continue
+            username, is_admin = username_isadmin
+            if is_admin:
+                menu_admin(username)
+            else:
+                menu_user(username)
+        elif opsi == "3":
+            print("Anda login sebagai tamu!")
+            read_drama()
+            continue
+        elif opsi == "4":
+            exit()
         else:
-            menu_user(username)
+            print("Pilihan tidak valid.")
 
-    elif opsi == "2":
-        username, is_admin = login()
-        if is_admin:
-            menu_admin(username)
-        else:
-            menu_user(username)
-
-    elif opsi == "3":
-        print("Anda login sebagai tamu!")
-        user.read_drama()
-        menu_awal()
-
-    elif opsi == "4":
-        exit()
-
-    else:
-        print("Pilihan tidak valid.")
+if __name__ == "__main__":
+    main()
