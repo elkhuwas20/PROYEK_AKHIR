@@ -1,3 +1,13 @@
+feat/autentikasi
+def login():
+    print("selamat datang ")
+    username = input("Masukkan Username: ")
+    password = input("Masukkan Password: ")
+    
+    return username 
+
+
+login()
 import json
 import pwinput
 from storage import Storage
@@ -35,3 +45,4 @@ def login():
         print("Input data akun tidak valid! Coba lagi...\n")
 
 # testing
+main
