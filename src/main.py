@@ -50,17 +50,21 @@ def menu_admin(username):
 
 def menu_user(username):
     while True:
-        print("\n" + "="*60)
-        print(f"SELAMAT DATANG, {username.upper()}!")
-        print("="*60)
-        print("1. Lihat Semua Drama Korea")
-        print("2. Tambah ke Watchlist")
-        print("3. Lihat Watchlist Saya")
-        print("4. Hapus dari Watchlist")
-        print("5. Cari Drama")
-        print("6. Logout")
+        print(f"\n{Fore.CYAN}{'='*70}")
+        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.YELLOW}  👤 SELAMAT DATANG, {username.upper()}! 👤")
+        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
+        print()
+        print(f"{Fore.GREEN}  1. {Fore.CYAN}📺 Lihat Semua Drama Korea")
+        print(f"{Fore.GREEN}  2. {Fore.CYAN}➕ Tambah ke Watchlist")
+        print(f"{Fore.GREEN}  3. {Fore.CYAN}📋 Lihat Watchlist Saya")
+        print(f"{Fore.GREEN}  4. {Fore.CYAN}🗑️  Hapus dari Watchlist")
+        print(f"{Fore.GREEN}  5. {Fore.CYAN}🔍 Cari Drama")
+        print(f"{Fore.RED}  6. {Fore.CYAN}🚪 Logout")
+        print()
 
-        opsi = input("\nPilih menu (1-6): ").strip()
+        opsi = input(f"{Fore.YELLOW}Pilih menu (1-6): {Style.RESET_ALL}").strip()
 
         if opsi == '1':
             read_drama()
@@ -73,23 +77,25 @@ def menu_user(username):
         elif opsi == '5':
             search_drama_user()
         elif opsi == '6':
-            print("Sampai jumpa!")
+            print(f"{Fore.YELLOW}👋 Sampai jumpa!")
             return
         else:
-            print("Pilihan tidak valid!")
+            print(f"{Fore.RED}❌ Pilihan tidak valid!")
 
 def menu_awal():
-    print(f"{ungu}"
-        "\n======================================================================\n"
-        "|      WELCOME TO K-BLACKLIST: PLATFORM STREAMING DRAMA KOREA!      |\n"
-        "======================================================================\n"
-        f"{Style.RESET_ALL}"
-    )
-    print("1. Registrasi")
-    print("2. Login")
-    print("3. Lihat sebagai tamu")
-    print("4. Keluar")
-    opsi = input("Silahkan pilih opsi: ").strip()
+    print(f"{Fore.MAGENTA}")
+    print("\n" + "█" * 70)
+    print("█" + " " * 68 + "█")
+    print("█" + f"{Fore.YELLOW}  🎬 WELCOME TO K-BLACKLIST: PLATFORM STREAMING DRAMA KOREA! 🎬".center(68) + f"{Fore.MAGENTA}█")
+    print("█" + " " * 68 + "█")
+    print("█" * 70 + f"{Style.RESET_ALL}")
+    print()
+    print(f"{Fore.GREEN}  1. {Fore.CYAN}📝 Registrasi")
+    print(f"{Fore.GREEN}  2. {Fore.CYAN}🔐 Login")
+    print(f"{Fore.GREEN}  3. {Fore.CYAN}👁️  Lihat sebagai Tamu")
+    print(f"{Fore.RED}  4. {Fore.CYAN}🚪 Keluar")
+    print()
+    opsi = input(f"{Fore.YELLOW}Silahkan pilih opsi (1-4): {Style.RESET_ALL}").strip()
     return opsi
 
 def main():
@@ -108,13 +114,14 @@ def main():
             else:
                 menu_user(username)
         elif opsi == "3":
-            print("Anda login sebagai tamu!")
+            print(f"{Fore.CYAN}👁️  Anda login sebagai tamu!{Style.RESET_ALL}")
             read_drama()
             continue
         elif opsi == "4":
+            print(f"{Fore.MAGENTA}\n✨ Terima kasih telah menggunakan K-Blacklist! ✨\n{Style.RESET_ALL}")
             exit()
         else:
-            print("Pilihan tidak valid.")
+            print(f"{Fore.RED}❌ Pilihan tidak valid.")
 
 if __name__ == "__main__":
     main()

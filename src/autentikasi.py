@@ -5,6 +5,7 @@ except Exception:
     import getpass
     _has_pwinput = False
 
+from colorama import Fore, Style
 from storage import load_users, save_users, load_admin
 
 
@@ -16,29 +17,33 @@ def _get_password(prompt: str) -> str:
 def registrasi():
     storage_users = load_users()
     admin = load_admin()
-    print("\n=== REGISTRASI AKUN ===")
+    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"{Fore.YELLOW}📝 REGISTRASI AKUN 📝")
+    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
     while True:
-        username = input("Masukkan username baru: ").strip()
+        username = input(f"{Fore.CYAN}Masukkan username baru: {Style.RESET_ALL}").strip()
         if username in storage_users or username in admin:
-            print("Username sudah terdaftar, coba lagi!")
+            print(f"{Fore.RED}❌ Username sudah terdaftar, coba lagi!")
             continue
-        password = _get_password("Masukkan password: ")
+        password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
         storage_users[username] = {"password": password, "watchlist": []}
         save_users(storage_users)
-        print("Registrasi berhasil! Silakan login.")
+        print(f"{Fore.GREEN}✅ Registrasi berhasil! Silakan login.")
         break
 
 def login():
     storage_users = load_users()
     admin = load_admin()
-    print("\n=== LOGIN SISTEM ===")
+    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"{Fore.YELLOW}🔐 LOGIN SISTEM 🔐")
+    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
     while True:
-        username = input("Masukkan username: ").strip()
-        password = _get_password("Masukkan password: ")
+        username = input(f"{Fore.CYAN}Masukkan username: {Style.RESET_ALL}").strip()
+        password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
         if username in admin and password == admin[username]:
-            print("Login berhasil sebagai ADMIN!")
+            print(f"{Fore.GREEN}✅ Login berhasil sebagai ADMIN!")
             return username, True
         if username in storage_users and password == storage_users[username]["password"]:
-            print("Login berhasil sebagai USER!")
+            print(f"{Fore.GREEN}✅ Login berhasil sebagai USER!")
             return username, False
-        print("Input data akun tidak valid! Coba lagi...\n")
+        print(f"{Fore.RED}❌ Input data akun tidak valid! Coba lagi...\n")
