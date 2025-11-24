@@ -1,7 +1,9 @@
 ﻿import json
 import os
 
-data_dir = "data"
+# Get the data directory relative to project root
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+data_dir = os.path.join(project_root, "data")
 
 def create_data_dir():
     if not os.path.exists(data_dir):

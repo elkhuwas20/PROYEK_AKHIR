@@ -83,7 +83,15 @@ pip install -r requirements.txt
 ## 🎮 Penggunaan
 
 ### Jalankan Aplikasi
+
+**Recommended (dari project root):**
 ```bash
+python run.py
+```
+
+**Alternative (dari src directory):**
+```bash
+cd src
 python main.py
 ```
 
@@ -137,19 +145,28 @@ Contoh format:
 
 ```
 PROYEK_AKHIR/
-├── main.py                 # Entry point aplikasi
-├── autentikasi.py         # Modul registrasi & login
-├── admin_menu.py          # Semua fitur admin panel
-├── user_menu.py           # Semua fitur user panel
-├── storage.py             # Manajemen penyimpanan data (JSON)
-├── data/
-│   ├── admin.json         # Data admin
-│   ├── users.json         # Data user & watchlist
-│   └── dramas.json        # Data drama Korea
-├── .gitignore             # File yang diabaikan git
-├── requirements.txt       # Dependency list
-└── README.md             # File dokumentasi ini
+├── src/                    # Source code
+│   ├── __init__.py
+│   ├── main.py            # Entry point
+│   ├── autentikasi.py     # Login/Register
+│   ├── admin_menu.py      # Admin features
+│   ├── user_menu.py       # User features
+│   └── storage.py         # Data management
+├── data/                  # Data storage (JSON)
+│   ├── admin.json
+│   ├── users.json
+│   └── dramas.json
+├── tests/                 # Unit tests
+├── config/                # Configuration
+├── docs/                  # Documentation
+│   └── PROJECT_STRUCTURE.md
+├── run.py                 # Application wrapper
+├── requirements.txt       # Dependencies
+├── .gitignore
+└── README.md
 ```
+
+Untuk detail lengkap struktur folder, lihat: [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md)
 
 ## 🔧 Fitur Admin
 
