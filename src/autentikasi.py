@@ -20,16 +20,34 @@ def registrasi():
     print(f"\n{Fore.MAGENTA}{'█' * 50}")
     print(f"{Fore.YELLOW}📝 REGISTRASI AKUN 📝")
     print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}(Ketik 'cancel' kapan saja untuk membatalkan)\n{Style.RESET_ALL}")
+    
     while True:
         username = input(f"{Fore.CYAN}Masukkan username baru: {Style.RESET_ALL}").strip()
+        if username.lower() == 'cancel':
+            print(f"{Fore.YELLOW}⏹️  Pembatalan registrasi.")
+            return
+        if not username:
+            print(f"{Fore.RED}❌ Username tidak boleh kosong!")
+            continue
         if username in storage_users or username in admin:
             print(f"{Fore.RED}❌ Username sudah terdaftar, coba lagi!")
             continue
-        password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
-        storage_users[username] = {"password": password, "watchlist": []}
-        save_users(storage_users)
-        print(f"{Fore.GREEN}✅ Registrasi berhasil! Silakan login.")
         break
+    
+    while True:
+        password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
+        if password.lower() == 'cancel':
+            print(f"{Fore.YELLOW}⏹️  Pembatalan registrasi.")
+            return
+        if not password:
+            print(f"{Fore.RED}❌ Password tidak boleh kosong!")
+            continue
+        break
+    
+    storage_users[username] = {"password": password, "watchlist": []}
+    save_users(storage_users)
+    print(f"{Fore.GREEN}✅ Registrasi berhasil! Silakan login.")
 
 def login():
     storage_users = load_users()
