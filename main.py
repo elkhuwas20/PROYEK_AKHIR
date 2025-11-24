@@ -1,4 +1,4 @@
-from colorama import Fore, Style
+from colorama import Fore, Style, init
 from autentikasi import registrasi, login
 from admin_menu import (
     read_drama, create_drama, update_drama, delete_drama,
@@ -9,22 +9,27 @@ from user_menu import (
 )
 from storage import load_users
 
+init(autoreset=True)
 ungu = Fore.MAGENTA
 
 def menu_admin(username):
     while True:
-        print("\n" + "="*60)
-        print(f"SELAMAT DATANG, ADMIN {username.upper()}!")
-        print("="*60)
-        print("1. Lihat Semua Drama")
-        print("2. Tambah Drama Baru")
-        print("3. Update Data Drama")
-        print("4. Hapus Drama")
-        print("5. Lihat Watchlist Pengguna")
-        print("6. Cari Drama")
-        print("7. Logout")
+        print(f"\n{Fore.CYAN}{'='*70}")
+        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.YELLOW}  👑 SELAMAT DATANG, ADMIN {username.upper()}! 👑")
+        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
+        print()
+        print(f"{Fore.GREEN}  1. {Fore.CYAN}📺 Lihat Semua Drama")
+        print(f"{Fore.GREEN}  2. {Fore.CYAN}➕ Tambah Drama Baru")
+        print(f"{Fore.GREEN}  3. {Fore.CYAN}✏️  Update Data Drama")
+        print(f"{Fore.GREEN}  4. {Fore.CYAN}🗑️  Hapus Drama")
+        print(f"{Fore.GREEN}  5. {Fore.CYAN}👤 Lihat Watchlist Pengguna")
+        print(f"{Fore.GREEN}  6. {Fore.CYAN}🔍 Cari Drama")
+        print(f"{Fore.RED}  7. {Fore.CYAN}🚪 Logout")
+        print()
 
-        opsi = input("\nPilih menu (1-7): ").strip()
+        opsi = input(f"{Fore.YELLOW}Pilih menu (1-7): {Style.RESET_ALL}").strip()
         if opsi == '1':
             read_drama()
         elif opsi == '2':
@@ -38,10 +43,10 @@ def menu_admin(username):
         elif opsi == '6':
             search_drama_menu()
         elif opsi == '7':
-            print("Terima kasih, Admin!")
+            print(f"{Fore.YELLOW}Terima kasih, Admin!")
             return
         else:
-            print("Pilihan tidak valid!")
+            print(f"{Fore.RED}❌ Pilihan tidak valid!")
 
 def menu_user(username):
     while True:
