@@ -97,10 +97,13 @@ def create_drama():
         print(f"{Fore.RED}❌ input tidak valid")
 
     while True:
-        rating = input(f"{Fore.CYAN}Rating: {Style.RESET_ALL}").strip()
+        rating = input(f"{Fore.CYAN}Rating (0.0-10): {Style.RESET_ALL}").strip()
         try:
             rating = float(rating)
-            break
+            if 0.0 <= rating <= 10.0:
+                break
+            else:
+                print(f"{Fore.RED}❌ input tidak valid (rating harus 0.0-10)")
         except ValueError:
             print(f"{Fore.RED}❌ input tidak valid")
 
@@ -173,13 +176,16 @@ def update_drama():
         print(f"{Fore.RED}❌ input tidak valid")
 
     while True:
-        rating = input(f"{Fore.CYAN}Rating [{dramas[judul]['rating']}]: {Style.RESET_ALL}").strip()
+        rating = input(f"{Fore.CYAN}Rating (0.0-10) [{dramas[judul]['rating']}]: {Style.RESET_ALL}").strip()
         if not rating:
             rating = None
             break
         try:
             rating = float(rating)
-            break
+            if 0.0 <= rating <= 10.0:
+                break
+            else:
+                print(f"{Fore.RED}❌ input tidak valid (rating harus 0.0-10)")
         except ValueError:
             print(f"{Fore.RED}❌ input tidak valid")
 
