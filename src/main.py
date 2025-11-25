@@ -8,16 +8,27 @@ from user_menu import (
     create_watchlist, read_watchlist, remove_watchlist, search_drama_user
 )
 from storage import load_users
+import os 
 
 init(autoreset=True)
-ungu = Fore.MAGENTA
+ungu = Fore.RED
+
+def cls():
+    os.system("cls" if os.name == "nt" else "clear")
+
+def clear():
+    input("\nTekan ENTER untuk kembali ke menu..."); cls()
+
+def clear_2():
+    input("\nTekan ENTER untuk masuk ke menu..."); cls()
+
 
 def menu_admin(username):
     while True:
         print(f"\n{Fore.CYAN}{'='*70}")
-        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.RED}{'█' * 70}")
         print(f"{Fore.YELLOW}  👑 SELAMAT DATANG, ADMIN {username.upper()}! 👑")
-        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.RED}{'█' * 70}")
         print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
         print()
         print(f"{Fore.GREEN}  1. {Fore.CYAN}📺 Lihat Semua Drama")
@@ -32,28 +43,36 @@ def menu_admin(username):
         opsi = input(f"{Fore.YELLOW}Pilih menu (1-7): {Style.RESET_ALL}").strip()
         if opsi == '1':
             read_drama()
+            clear()
         elif opsi == '2':
             create_drama()
+            clear()
         elif opsi == '3':
             update_drama()
+            clear()
         elif opsi == '4':
             delete_drama()
+            clear()
         elif opsi == '5':
             read_user_watchlists()
+            clear()
         elif opsi == '6':
             search_drama_menu()
+            clear()
         elif opsi == '7':
             print(f"{Fore.YELLOW}Terima kasih, Admin!")
+            clear()
             return
         else:
-            print(f"{Fore.RED}❌ Pilihan tidak valid!")
+            print(f"{Fore.RED}Pilihan tidak valid!")
+
 
 def menu_user(username):
     while True:
         print(f"\n{Fore.CYAN}{'='*70}")
-        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.RED}{'█' * 70}")
         print(f"{Fore.YELLOW}  👤 SELAMAT DATANG, {username.upper()}! 👤")
-        print(f"{Fore.MAGENTA}{'█' * 70}")
+        print(f"{Fore.RED}{'█' * 70}")
         print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
         print()
         print(f"{Fore.GREEN}  1. {Fore.CYAN}📺 Lihat Semua Drama Korea")
@@ -68,25 +87,32 @@ def menu_user(username):
 
         if opsi == '1':
             read_drama()
+            clear()
         elif opsi == '2':
             create_watchlist(username)
+            clear()
         elif opsi == '3':
             read_watchlist(username)
+            clear()
         elif opsi == '4':
             remove_watchlist(username)
+            clear()
         elif opsi == '5':
             search_drama_user()
+            clear()
         elif opsi == '6':
             print(f"{Fore.YELLOW}👋 Sampai jumpa!")
+            clear()
             return
         else:
-            print(f"{Fore.RED}❌ Pilihan tidak valid!")
+            print(f"{Fore.RED}Pilihan tidak valid!")
+
 
 def menu_awal():
-    print(f"{Fore.MAGENTA}")
+    print(f"{Fore.RED}")
     print("\n" + "█" * 70)
     print("█" + " " * 68 + "█")
-    print("█" + f"{Fore.YELLOW}  🎬 WELCOME TO K-BLACKLIST: PLATFORM STREAMING DRAMA KOREA! 🎬".center(68) + f"{Fore.MAGENTA}█")
+    print("█" + f"{Fore.YELLOW}  🎬 WELCOME TO K-BLACKLIST: PLATFORM STREAMING DRAMA KOREA! 🎬".center(68) + f"{Fore.RED}█")
     print("█" + " " * 68 + "█")
     print("█" * 70 + f"{Style.RESET_ALL}")
     print()
@@ -98,11 +124,13 @@ def menu_awal():
     opsi = input(f"{Fore.YELLOW}Silahkan pilih opsi (1-4): {Style.RESET_ALL}").strip()
     return opsi
 
+
 def main():
     while True:
         opsi = menu_awal()
         if opsi == "1":
             registrasi()
+            clear()
             continue
         elif opsi == "2":
             username_isadmin = login()
@@ -110,18 +138,22 @@ def main():
                 continue
             username, is_admin = username_isadmin
             if is_admin:
+                clear_2()
                 menu_admin(username)
             else:
+                clear_2()
                 menu_user(username)
         elif opsi == "3":
             print(f"{Fore.CYAN}👁️  Anda login sebagai tamu!{Style.RESET_ALL}")
             read_drama()
+            clear()
             continue
         elif opsi == "4":
-            print(f"{Fore.MAGENTA}\n✨ Terima kasih telah menggunakan K-Blacklist! ✨\n{Style.RESET_ALL}")
+            print(f"{Fore.RED}\n✨ Terima kasih telah menggunakan K-Blacklist! ✨\n{Style.RESET_ALL}")
             exit()
         else:
-            print(f"{Fore.RED}❌ Pilihan tidak valid.")
+            print(f"{Fore.RED}Pilihan tidak valid.")
+
 
 if __name__ == "__main__":
     main()

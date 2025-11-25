@@ -12,16 +12,16 @@
         "status": "Finish"
     },
     "Squid Game": {
-        "genre": "Thriller",
-        "episode": "9",
-        "rating": "8.4",
-        "status": "Finish"
+        "genre": "Horror",
+        "episode": 100,
+        "rating": 0.1,
+        "status": "Ongoing"
     },
     "Goblin": {
-        "genre": "Fantasy",
-        "episode": 20,
-        "rating": 8.9,
-        "status": "Ongoing"
+        "genre": "Romance",
+        "episode": 24,
+        "rating": 10.0,
+        "status": "Finish"
     },
     "Business Proposal": {
         "genre": "Romance",

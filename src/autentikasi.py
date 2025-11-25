@@ -17,9 +17,9 @@ def _get_password(prompt: str) -> str:
 def registrasi():
     storage_users = load_users()
     admin = load_admin()
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}📝 REGISTRASI AKUN 📝")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}(Ketik 'cancel' kapan saja untuk membatalkan)\n{Style.RESET_ALL}")
     
     while True:
@@ -28,40 +28,54 @@ def registrasi():
             print(f"{Fore.YELLOW}⏹️  Pembatalan registrasi.")
             return
         if not username:
-            print(f"{Fore.RED}❌ Username tidak boleh kosong!")
+            print(f"{Fore.RED}Username tidak boleh kosong!")
+            continue
+        if not username.isalnum():
+            print(f"{Fore.RED}Username tidak boleh simbol!")
             continue
         if username in storage_users or username in admin:
-            print(f"{Fore.RED}❌ Username sudah terdaftar, coba lagi!")
+            print(f"{Fore.RED}Username sudah terdaftar, coba lagi!")
             continue
         break
     
     while True:
         password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
         if password.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan registrasi.")
+            print(f"{Fore.YELLOW}⏹Pembatalan registrasi.")
             return
         if not password:
-            print(f"{Fore.RED}❌ Password tidak boleh kosong!")
+            print(f"{Fore.RED}Password tidak boleh kosong!")
             continue
         break
     
     storage_users[username] = {"password": password, "watchlist": []}
     save_users(storage_users)
-    print(f"{Fore.GREEN}✅ Registrasi berhasil! Silakan login.")
+    print(f"{Fore.GREEN}Registrasi berhasil! Silakan login.")
 
 def login():
     storage_users = load_users()
     admin = load_admin()
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}🔐 LOGIN SISTEM 🔐")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
+
+    percobaan = 0 
+
     while True:
         username = input(f"{Fore.CYAN}Masukkan username: {Style.RESET_ALL}").strip()
         password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
+
         if username in admin and password == admin[username]:
-            print(f"{Fore.GREEN}✅ Login berhasil sebagai ADMIN!")
+            print(f"{Fore.GREEN}Login berhasil sebagai ADMIN!")
             return username, True
+
         if username in storage_users and password == storage_users[username]["password"]:
-            print(f"{Fore.GREEN}✅ Login berhasil sebagai USER!")
+            print(f"{Fore.GREEN}Login berhasil sebagai USER!")
             return username, False
-        print(f"{Fore.RED}❌ Input data akun tidak valid! Coba lagi...\n")
+
+        print(f"{Fore.RED}Input data akun tidak valid! Coba lagi...\n")
+        percobaan += 1
+
+        if percobaan >= 3:
+            print(f"{Fore.RED}Terlalu banyak percobaan gagal. Kembali ke menu awal...\n")
+            return None

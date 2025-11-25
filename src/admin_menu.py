@@ -5,7 +5,7 @@ from storage import load_dramas, save_dramas, load_users, save_users
 def read_drama():
     dramas = load_dramas()
     if not dramas:
-        print(f"{Fore.RED}❌ Tidak ada drama yang tersedia.")
+        print(f"{Fore.RED}Tidak ada drama yang tersedia.")
         return
 
     table = PrettyTable()
@@ -21,9 +21,9 @@ def read_drama():
             data["rating"]
         ])
 
-    print(f"\n{Fore.MAGENTA}{'█' * 80}")
+    print(f"\n{Fore.RED}{'█' * 80}")
     print(f"{Fore.YELLOW}📺 DAFTAR DRAMA KOREA 📺")
-    print(f"{Fore.MAGENTA}{'█' * 80}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 80}{Style.RESET_ALL}")
     print(table)
 
 def search_drama(keyword):
@@ -35,16 +35,16 @@ def search_drama(keyword):
     return hasil
 
 def search_drama_menu():
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}🔍 CARI DRAMA 🔍")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
     keyword = input(f"{Fore.CYAN}Masukkan judul atau genre drama: {Style.RESET_ALL}").strip()
     if not keyword:
-        print(f"{Fore.RED}❌ drama tidak tersedia")
+        print(f"{Fore.RED}drama tidak tersedia")
         return
     results = search_drama(keyword)
     if not results:
-        print(f"{Fore.RED}❌ Tidak ditemukan drama dengan kata kunci tersebut.")
+        print(f"{Fore.RED}Tidak ditemukan drama dengan kata kunci tersebut.")
         return
     table = PrettyTable()
     table.field_names = [f"{Fore.CYAN}No", f"{Fore.CYAN}Judul", f"{Fore.CYAN}Genre", f"{Fore.CYAN}Episode", f"{Fore.CYAN}Status", f"{Fore.CYAN}Rating{Style.RESET_ALL}"]
@@ -57,72 +57,77 @@ def search_drama_menu():
             data["status"],
             data["rating"]
         ])
-    print(f"{Fore.GREEN}✅ Hasil pencarian untuk '{keyword}':")
+    print(f"{Fore.GREEN}Hasil pencarian untuk '{keyword}':")
     print(table)
 
 def create_drama():
     dramas = load_dramas()
 
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}➕ TAMBAH DRAMA BARU ➕")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}(Ketik 'cancel' kapan saja untuk membatalkan)\n{Style.RESET_ALL}")
 
     while True:
-        judul = input(f"{Fore.CYAN}Judul: {Style.RESET_ALL}").strip()
-        if judul.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan penambahan drama.")
+        judul_raw = input(f"{Fore.CYAN}Judul: {Style.RESET_ALL}").strip()
+        if judul_raw.lower() == 'cancel':
+            print(f"{Fore.YELLOW}Pembatalan penambahan drama.")
             return
-        if not judul:
-            print(f"{Fore.RED}❌ input tidak valid")
+        if not judul_raw:
+            print(f"{Fore.RED}Input tidak valid")
+            continue
+        judul = judul_raw.title()
+        valid_chars = all(c.isalnum() or c in " ,.-'?!:" for c in judul)
+        if not valid_chars:
+            print(f"{Fore.RED}Input tidak valid")
             continue
         if judul in dramas:
-            print(f"{Fore.RED}❌ Drama sudah ada dalam daftar!")
+            print(f"{Fore.RED}Drama sudah ada dalam daftar!")
             return
         break
 
     while True:
         genre = input(f"{Fore.CYAN}Genre: {Style.RESET_ALL}").strip()
         if genre.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan penambahan drama.")
+            print(f"{Fore.YELLOW}Pembatalan penambahan drama.")
             return
         if genre.replace(" ", "").isalpha():
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         episode = input(f"{Fore.CYAN}Jumlah Episode: {Style.RESET_ALL}").strip()
         if episode.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan penambahan drama.")
+            print(f"{Fore.YELLOW}Pembatalan penambahan drama.")
             return
         if episode.isdigit():
             episode = int(episode)
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         status = input(f"{Fore.CYAN}Status (Finish/Ongoing): {Style.RESET_ALL}").strip()
         if status.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan penambahan drama.")
+            print(f"{Fore.YELLOW}⏹Pembatalan penambahan drama.")
             return
         status = status.capitalize()
         if status in ["Finish", "Ongoing"]:
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         rating = input(f"{Fore.CYAN}Rating (0.0-10): {Style.RESET_ALL}").strip()
         if rating.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹️  Pembatalan penambahan drama.")
+            print(f"{Fore.YELLOW}Pembatalan penambahan drama.")
             return
         try:
             rating = float(rating)
             if 0.0 <= rating <= 10.0:
                 break
             else:
-                print(f"{Fore.RED}❌ input tidak valid (rating harus 0.0-10)")
+                print(f"{Fore.RED}Input tidak valid (rating harus 0.0-10)")
         except ValueError:
-            print(f"{Fore.RED}❌ input tidak valid")
+            print(f"{Fore.RED}Input tidak valid")
 
     dramas[judul] = {
         "genre": genre,
@@ -131,17 +136,17 @@ def create_drama():
         "rating": rating
     }
     save_dramas(dramas)
-    print(f"{Fore.GREEN}✅ Drama berhasil ditambahkan!")
+    print(f"{Fore.GREEN}Drama berhasil ditambahkan!")
 
 def update_drama():
     dramas = load_dramas()
 
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}✏️  UPDATE DATA DRAMA ✏️")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
 
     if not dramas:
-        print(f"{Fore.RED}❌ Tidak ada drama yang tersedia.")
+        print(f"{Fore.RED}Tidak ada drama yang tersedia.")
         return
     table = PrettyTable()
     table.field_names = [f"{Fore.CYAN}No", f"{Fore.CYAN}Judul", f"{Fore.CYAN}Genre", f"{Fore.CYAN}Episode", f"{Fore.CYAN}Status", f"{Fore.CYAN}Rating{Style.RESET_ALL}"]
@@ -149,11 +154,19 @@ def update_drama():
         table.add_row([i, judul, data["genre"], data["episode"], data["status"], data["rating"]])
     print(table)
 
-    judul = input(f"\n{Fore.CYAN}Masukkan judul drama yang ingin diupdate: {Style.RESET_ALL}").strip()
+    judul_input = input(f"\n{Fore.CYAN}Masukkan judul drama yang ingin diupdate: {Style.RESET_ALL}").strip()
 
-    if judul not in dramas:
-        print(f"{Fore.RED}❌ Drama tidak ditemukan!")
+    judul_ditemukan = None
+    for j in dramas:
+        if j.lower() == judul_input.lower():
+            judul_ditemukan = j
+            break
+
+    if not judul_ditemukan:
+        print(f"{Fore.RED}Drama tidak ditemukan!")
         return
+
+    judul = judul_ditemukan
 
     print(f"\n{Fore.GREEN}Data saat ini untuk '{judul}':")
     print(f"{Fore.CYAN}Genre: {dramas[judul]['genre']}")
@@ -170,7 +183,7 @@ def update_drama():
             break
         if genre.replace(" ", "").isalpha():
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         episode = input(f"{Fore.CYAN}Episode [{dramas[judul]['episode']}]: {Style.RESET_ALL}").strip()
@@ -180,7 +193,7 @@ def update_drama():
         if episode.isdigit():
             episode = int(episode)
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         status = input(f"{Fore.CYAN}Status [{dramas[judul]['status']}]: {Style.RESET_ALL}").strip()
@@ -190,7 +203,7 @@ def update_drama():
         status = status.capitalize()
         if status in ["Finish", "Ongoing"]:
             break
-        print(f"{Fore.RED}❌ input tidak valid")
+        print(f"{Fore.RED}Input tidak valid")
 
     while True:
         rating = input(f"{Fore.CYAN}Rating (0.0-10) [{dramas[judul]['rating']}]: {Style.RESET_ALL}").strip()
@@ -202,9 +215,9 @@ def update_drama():
             if 0.0 <= rating <= 10.0:
                 break
             else:
-                print(f"{Fore.RED}❌ input tidak valid (rating harus 0.0-10)")
+                print(f"{Fore.RED}Input tidak valid (rating harus 0.0-10)")
         except ValueError:
-            print(f"{Fore.RED}❌ input tidak valid")
+            print(f"{Fore.RED}Input tidak valid")
 
     if genre:
         dramas[judul]['genre'] = genre
@@ -216,17 +229,17 @@ def update_drama():
         dramas[judul]['rating'] = rating
 
     save_dramas(dramas)
-    print(f"{Fore.GREEN}✅ Data drama berhasil diupdate!")
+    print(f"{Fore.GREEN}Data drama berhasil diupdate!")
 
 def delete_drama():
     dramas = load_dramas()
 
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}🗑️  HAPUS DRAMA 🗑️")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
 
     if not dramas:
-        print(f"{Fore.RED}❌ Tidak ada drama yang tersedia.")
+        print(f"{Fore.RED}Tidak ada drama yang tersedia.")
         return
     table = PrettyTable()
     table.field_names = [f"{Fore.CYAN}No", f"{Fore.CYAN}Judul", f"{Fore.CYAN}Genre", f"{Fore.CYAN}Episode", f"{Fore.CYAN}Status", f"{Fore.CYAN}Rating{Style.RESET_ALL}"]
@@ -234,11 +247,19 @@ def delete_drama():
         table.add_row([i, judul, data["genre"], data["episode"], data["status"], data["rating"]])
     print(table)
 
-    judul = input(f"\n{Fore.CYAN}Masukkan judul drama yang ingin dihapus: {Style.RESET_ALL}").strip()
+    judul_input = input(f"\n{Fore.CYAN}Masukkan judul drama yang ingin dihapus: {Style.RESET_ALL}").strip()
 
-    if judul not in dramas:
-        print(f"{Fore.RED}❌ Drama tidak ditemukan!")
+    judul_ditemukan = None
+    for j in dramas:
+        if j.lower() == judul_input.lower():
+            judul_ditemukan = j
+            break
+
+    if not judul_ditemukan:
+        print(f"{Fore.RED}Drama tidak ditemukan!")
         return
+
+    judul = judul_ditemukan
     del dramas[judul]
     save_dramas(dramas)
     users = load_users()
@@ -246,15 +267,15 @@ def delete_drama():
         users[username]["watchlist"] = [d for d in users[username]["watchlist"] if d != judul]
     save_users(users)
 
-    print(f"{Fore.GREEN}✅ Drama berhasil dihapus!")
+    print(f"{Fore.GREEN}Drama berhasil dihapus!")
 
 def read_user_watchlists():
     users = load_users()
-    print(f"\n{Fore.MAGENTA}{'█' * 50}")
+    print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}👤 WATCHLIST PENGGUNA 👤")
-    print(f"{Fore.MAGENTA}{'█' * 50}{Style.RESET_ALL}")
+    print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
     if not users:
-        print(f"{Fore.RED}❌ Tidak ada pengguna terdaftar.")
+        print(f"{Fore.RED}Tidak ada pengguna terdaftar.")
         return
     table = PrettyTable()
     table.field_names = [f"{Fore.CYAN}Username", f"{Fore.CYAN}Jumlah Watchlist", f"{Fore.CYAN}Daftar Drama{Style.RESET_ALL}"]
