@@ -1,18 +1,30 @@
 {
     "julpa": {
-        "password": "pw321",
-        "watchlist": []
+        "password": "321",
+        "watchlist": [
+            "Dear X"
+        ]
     },
     "kikan": {
         "password": "pw321",
         "watchlist": []
     },
     "akmal": {
-        "password": "pw321",
-        "watchlist": []
+        "password": "321",
+        "watchlist": [
+            "Vagabond"
+        ]
     },
     "doni": {
         "password": "pw321",
+        "watchlist": []
+    },
+    "Registrasi": {
+        "password": "git add -A; git commit -m \"Reorganize project structure - move source code to src/ directory, add run.py wrapper, create docs and config directories\"; git push origin feat/menu-admin;",
+        "watchlist": []
+    },
+    "cancel": {
+        "password": "",
         "watchlist": []
     }
 }

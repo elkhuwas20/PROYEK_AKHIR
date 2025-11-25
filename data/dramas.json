@@ -88,5 +88,11 @@
         "episode": "12",
         "rating": "8.5",
         "status": "Ongoing"
+    },
+    "Vagabond": {
+        "genre": "Action",
+        "episode": 16,
+        "status": "Ongoing",
+        "rating": 10.0
     }
 }
