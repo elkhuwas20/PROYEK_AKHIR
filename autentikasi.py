@@ -15,18 +15,6 @@ def registrasi():
     
     while True:
         username = input("Masukkan username baru: ").strip()
-<<<<<<< Updated upstream
-        if not username:
-            print("input tidak valid")
-            continue
-        if username in storage_users or username in admin:
-            print("Username sudah terdaftar, coba lagi!")
-            continue
-        password = pwinput.pwinput("Masukkan password: ")
-        if not password:
-            print("input tidak valid")
-            continue
-=======
 
         if username == "":
             print("Username tidak boleh kosong!")
@@ -48,7 +36,6 @@ def registrasi():
             continue
 
         # Simpan user baru
->>>>>>> Stashed changes
         storage_users[username] = {"password": password, "watchlist": []}
         save_users(storage_users)
         print("Registrasi berhasil! Silakan login.")
@@ -65,12 +52,6 @@ def login():
 
     while percobaan < 3:
         username = input("Masukkan username: ").strip()
-<<<<<<< Updated upstream
-        password = pwinput.pwinput("Masukkan password: ")
-        if not username or not password:
-            print("input tidak valid")
-            continue
-=======
         password = pwinput.pwinput("Masukkan password: ").strip()
 
         if username == "" or password == "":
@@ -79,7 +60,6 @@ def login():
             continue
 
         # Login admin
->>>>>>> Stashed changes
         if username in admin and password == admin[username]:
             print("Login berhasil sebagai ADMIN!")
             return username, True
@@ -88,9 +68,6 @@ def login():
         if username in storage_users and password == storage_users[username]["password"]:
             print("Login berhasil sebagai USER!")
             return username, False
-<<<<<<< Updated upstream
-        print("Input data akun tidak valid! Coba lagi...\n")
-=======
 
         # Jika gagal
         percobaan += 1
@@ -99,4 +76,3 @@ def login():
 
     print("Terlalu banyak percobaan gagal! Silakan coba lagi nanti.")
     return None, None
->>>>>>> Stashed changes
