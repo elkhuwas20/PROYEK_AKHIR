@@ -1,6 +1,9 @@
 from prettytable import PrettyTable
 from colorama import Fore, Style
 from storage import load_dramas, save_dramas, load_users, save_users
+from InquirerPy import inquirer
+
+GENRES = ["Crime", "Thriller", "Romance", "Action", "Drama", "Historical", "Youth", "Horror"]
 
 def read_drama():
     dramas = load_dramas()
@@ -30,24 +33,33 @@ def search_drama(keyword):
     dramas = load_dramas()
     hasil = {}
     for judul, data in dramas.items():
-        if keyword.lower() in judul.lower() or keyword.lower() in data['genre'].lower():
+        if keyword.lower() in judul.lower(): 
             hasil[judul] = data
     return hasil
+
 
 def search_drama_menu():
     print(f"\n{Fore.RED}{'█' * 50}")
     print(f"{Fore.YELLOW}🔍 CARI DRAMA 🔍")
     print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
-    keyword = input(f"{Fore.CYAN}Masukkan judul atau genre drama: {Style.RESET_ALL}").strip()
+    keyword = input(f"{Fore.CYAN}Masukkan judul drama: {Style.RESET_ALL}").strip()
     if not keyword:
-        print(f"{Fore.RED}drama tidak tersedia")
+        print(f"{Fore.RED}Input tidak boleh kosong!")
         return
     results = search_drama(keyword)
     if not results:
-        print(f"{Fore.RED}Tidak ditemukan drama dengan kata kunci tersebut.")
+        print(f"{Fore.RED}Tidak ditemukan drama dengan judul tersebut.")
         return
+
     table = PrettyTable()
-    table.field_names = [f"{Fore.CYAN}No", f"{Fore.CYAN}Judul", f"{Fore.CYAN}Genre", f"{Fore.CYAN}Episode", f"{Fore.CYAN}Status", f"{Fore.CYAN}Rating{Style.RESET_ALL}"]
+    table.field_names = [
+        f"{Fore.CYAN}No",
+        f"{Fore.CYAN}Judul",
+        f"{Fore.CYAN}Genre",
+        f"{Fore.CYAN}Episode",
+        f"{Fore.CYAN}Status",
+        f"{Fore.CYAN}Rating{Style.RESET_ALL}",
+    ]
     for i, (judul, data) in enumerate(results.items(), 1):
         table.add_row([
             i,
@@ -59,6 +71,7 @@ def search_drama_menu():
         ])
     print(f"{Fore.GREEN}Hasil pencarian untuk '{keyword}':")
     print(table)
+
 
 def create_drama():
     dramas = load_dramas()
@@ -86,14 +99,7 @@ def create_drama():
             return
         break
 
-    while True:
-        genre = input(f"{Fore.CYAN}Genre: {Style.RESET_ALL}").strip()
-        if genre.lower() == 'cancel':
-            print(f"{Fore.YELLOW}Pembatalan penambahan drama.")
-            return
-        if genre.replace(" ", "").isalpha():
-            break
-        print(f"{Fore.RED}Input tidak valid")
+    genre = inquirer.select(message="Genre:", choices=GENRES).execute()
 
     while True:
         episode = input(f"{Fore.CYAN}Jumlah Episode: {Style.RESET_ALL}").strip()
@@ -105,15 +111,7 @@ def create_drama():
             break
         print(f"{Fore.RED}Input tidak valid")
 
-    while True:
-        status = input(f"{Fore.CYAN}Status (Finish/Ongoing): {Style.RESET_ALL}").strip()
-        if status.lower() == 'cancel':
-            print(f"{Fore.YELLOW}⏹Pembatalan penambahan drama.")
-            return
-        status = status.capitalize()
-        if status in ["Finish", "Ongoing"]:
-            break
-        print(f"{Fore.RED}Input tidak valid")
+    status = inquirer.select(message="Status (Finish/Ongoing):", choices=["Finish", "Ongoing"]).execute()
 
     while True:
         rating = input(f"{Fore.CYAN}Rating (0.0-10): {Style.RESET_ALL}").strip()
@@ -135,7 +133,9 @@ def create_drama():
         "status": status,
         "rating": rating
     }
+
     save_dramas(dramas)
+
     print(f"{Fore.GREEN}Drama berhasil ditambahkan!")
 
 def update_drama():
@@ -176,14 +176,15 @@ def update_drama():
 
     print(f"\n{Fore.YELLOW}Masukkan data baru (kosongkan jika tidak ingin mengubah):")
 
-    while True:
-        genre = input(f"{Fore.CYAN}Genre [{dramas[judul]['genre']}]: {Style.RESET_ALL}").strip()
-        if not genre:
-            genre = None
-            break
-        if genre.replace(" ", "").isalpha():
-            break
-        print(f"{Fore.RED}Input tidak valid")
+    pilih_genre = inquirer.select(
+        message=f"Genre [{dramas[judul]['genre']}]",
+        choices=["(Biarkan Tetap)"] + GENRES
+    ).execute()
+
+    if pilih_genre == "(Biarkan Tetap)":
+        genre = None
+    else:
+        genre = pilih_genre
 
     while True:
         episode = input(f"{Fore.CYAN}Episode [{dramas[judul]['episode']}]: {Style.RESET_ALL}").strip()
@@ -195,15 +196,15 @@ def update_drama():
             break
         print(f"{Fore.RED}Input tidak valid")
 
-    while True:
-        status = input(f"{Fore.CYAN}Status [{dramas[judul]['status']}]: {Style.RESET_ALL}").strip()
-        if not status:
-            status = None
-            break
-        status = status.capitalize()
-        if status in ["Finish", "Ongoing"]:
-            break
-        print(f"{Fore.RED}Input tidak valid")
+    pilih_status = inquirer.select(
+        message=f"Status [{dramas[judul]['status']}]",
+        choices=["(Biarkan Tetap)", "Finish", "Ongoing"]
+    ).execute()
+
+    if pilih_status == "(Biarkan Tetap)":
+        status = None
+    else:
+        status = pilih_status
 
     while True:
         rating = input(f"{Fore.CYAN}Rating (0.0-10) [{dramas[judul]['rating']}]: {Style.RESET_ALL}").strip()
@@ -230,6 +231,7 @@ def update_drama():
 
     save_dramas(dramas)
     print(f"{Fore.GREEN}Data drama berhasil diupdate!")
+
 
 def delete_drama():
     dramas = load_dramas()

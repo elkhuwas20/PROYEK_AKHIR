@@ -154,6 +154,5 @@ def main():
         else:
             print(f"{Fore.RED}Pilihan tidak valid.")
 
-
 if __name__ == "__main__":
     main()

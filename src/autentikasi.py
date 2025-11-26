@@ -46,6 +46,9 @@ def registrasi():
         if not password:
             print(f"{Fore.RED}Password tidak boleh kosong!")
             continue
+        if password.isalpha() or password.isdigit():
+            print(f"{Fore.RED}Password harus mengandung huruf dan angka!")
+            continue
         break
     
     storage_users[username] = {"password": password, "watchlist": []}

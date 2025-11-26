@@ -119,20 +119,24 @@ def search_drama_user():
     print(f"{Fore.YELLOW}🔍 CARI DRAMA 🔍")
     print(f"{Fore.RED}{'█' * 50}{Style.RESET_ALL}")
 
-    keyword = input(f"{Fore.CYAN}Masukkan judul atau genre drama: {Style.RESET_ALL}").strip()
-
+    keyword = input(f"{Fore.CYAN}Masukkan judul drama: {Style.RESET_ALL}").strip()
     if not keyword:
-        print(f"{Fore.RED}Drama tidak tersedia")
+        print(f"{Fore.RED}Input tidak boleh kosong!")
         return
-
     results = search_drama(keyword)
-
     if not results:
-        print(f"{Fore.RED}Tidak ditemukan drama dengan kata kunci tersebut.")
+        print(f"{Fore.RED}Tidak ditemukan drama dengan judul tersebut.")
         return
 
     table = PrettyTable()
-    table.field_names = [f"{Fore.CYAN}No", f"{Fore.CYAN}Judul", f"{Fore.CYAN}Genre", f"{Fore.CYAN}Episode", f"{Fore.CYAN}Status", f"{Fore.CYAN}Rating{Style.RESET_ALL}"]
+    table.field_names = [
+        f"{Fore.CYAN}No",
+        f"{Fore.CYAN}Judul",
+        f"{Fore.CYAN}Genre",
+        f"{Fore.CYAN}Episode",
+        f"{Fore.CYAN}Status",
+        f"{Fore.CYAN}Rating{Style.RESET_ALL}",
+    ]
 
     for i, (judul, data) in enumerate(results.items(), 1):
         table.add_row([
@@ -143,6 +147,6 @@ def search_drama_user():
             data["status"],
             data["rating"]
         ])
-
     print(f"{Fore.GREEN}Hasil pencarian untuk '{keyword}':")
     print(table)
+
