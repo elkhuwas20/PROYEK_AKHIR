@@ -39,7 +39,7 @@ def initialize_default_data():
             "doni": {"password": "321", "watchlist": []}
         })
 
-    if not os.path.exists(dramas_path): #Crime, Thriller, Romance, Action, Drama, Historical, Youth, Horror
+    if not os.path.exists(dramas_path):
         save_dramas({
             "Taxi Driver": {"genre": "Crime", "episode": "16", "rating": "8.8", "status": "Finish"},
             "Vincenzo": {"genre": "Crime", "episode": "20", "rating": "8.9", "status": "Finish"},

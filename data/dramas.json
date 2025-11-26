@@ -94,5 +94,11 @@
         "episode": 20,
         "status": "Finish",
         "rating": 0.8
+    },
+    "Tes": {
+        "genre": "Crime",
+        "episode": 20,
+        "status": "Finish",
+        "rating": 10.0
     }
 }

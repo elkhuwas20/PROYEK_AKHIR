@@ -258,7 +258,7 @@ def delete_drama():
             break
 
     if not judul_ditemukan:
-        print(f"{Fore.RED}Drama tidak ditemukan!")
+        print(f"{Fore.RED}Drama tidak ditemukan/input tidak boleh kosong!")
         return
 
     judul = judul_ditemukan
