@@ -3,12 +3,12 @@ def input(prompt=""):
     while True:
         v = ori_input(prompt)
         if v.strip() == "":         
-            print("Input tidak boleh kosong!")
+            print(f"{Fore.RED}Input tidak boleh kosong!")
             continue
         if v != v.strip():         
-            print("Tidak boleh ada spasi di awal atau akhir input")
+            print(f"{Fore.RED}Tidak boleh ada spasi di awal atau akhir input")
             continue
-        return v                    
+        return v                  
 
 try:
     import pwinput
@@ -41,13 +41,20 @@ def registrasi():
         if not username:
             print(f"{Fore.RED}Username tidak boleh kosong!")
             continue
+        if username.isdigit():
+            print(f"{Fore.RED}Username harus terdapat huruf!")
+            continue
         if not username.isalnum():
             print(f"{Fore.RED}Username tidak boleh simbol!")
+            continue
+        if len(username) < 4 or len(username) > 20:
+            print(f"{Fore.RED}Username harus 4-20 karakter!")
             continue
         if username in storage_users or username in admin:
             print(f"{Fore.RED}Username sudah terdaftar, coba lagi!")
             continue
         break
+
     
     while True:
         password = _get_password(f"{Fore.CYAN}Masukkan password: {Style.RESET_ALL}")
